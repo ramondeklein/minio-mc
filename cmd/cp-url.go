@@ -228,7 +228,7 @@ func prepareCopyURLsTypeC(ctx context.Context, cc copyURLsContent, o prepareCopy
 	go func(sourceClient Client, cc copyURLsContent, o prepareCopyURLsOpts, copyURLsCh chan URLs) {
 		defer close(copyURLsCh)
 
-		for sourceContent := range sourceClient.List(ctx, ListOptions{Recursive: o.isRecursive, TimeRef: o.timeRef, ShowDir: DirNone, ListZip: o.isZip}) {
+		for sourceContent := range sourceClient.List(ctx, ListOptions{Recursive: o.isRecursive, WithMetadata: true, TimeRef: o.timeRef, ShowDir: DirNone, ListZip: o.isZip}) {
 			if sourceContent.Err != nil {
 				// Listing failed.
 				copyURLsCh <- URLs{Error: sourceContent.Err.Trace(sourceClient.GetURL().String())}
